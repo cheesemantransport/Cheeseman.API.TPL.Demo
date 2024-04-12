@@ -1,6 +1,7 @@
 ﻿using Cheeseman.Models.TPL;
 using Cheeseman.Models.TPL.Quote;
 using Cheeseman.Models.TPL.Track;
+using Cheeseman.Models.TPL.Transit;
 using RestSharp;
 using System.Text.Json;
 
@@ -169,3 +170,33 @@ Console.ReadLine();
 Console.Clear();
 #endregion v1/Track/{trackingNumber}
 #endregion Tracking
+
+#region Transit
+Console.WriteLine("v1/Transit");
+
+var transitTimeRequestModel = new TransitTimeRequestModel()
+{
+    SERVICE_LEVEL = "LTL",
+    START_ZONE = "45846",
+    END_ZONE = "21703",
+    PICK_UP_DATE = DateTime.Now
+};
+
+var transitTimeRequest = new RestRequest("/v1/Transit", Method.Post)
+    .AddBody(transitTimeRequestModel);
+
+var transitTimeResponse = await client.ExecutePostAsync(transitTimeRequest);
+
+var transitTime = JsonSerializer.Deserialize<ApiResultModel<TransitTimeModel>>(transitTimeResponse.Content);
+
+// Check for Errors
+if (transitTime.Errors?.Length > 0)
+    foreach (var e in transitTime.Errors)
+        Console.WriteLine(e);
+
+Console.WriteLine($"Standard Service Days:{transitTime.Result.STANDARD_TRANSIT_DAYS:n0}, Delays:{transitTime.Result.DELAYS:n0} Estimated Delivery Date:{transitTime.Result.ESTIMATED_DELIVERY_DATE:MM/dd/yyyy}");
+
+Console.WriteLine("Press any key to continue...");
+Console.ReadLine();
+Console.Clear();
+#endregion Transit
