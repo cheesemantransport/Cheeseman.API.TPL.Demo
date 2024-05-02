@@ -59,7 +59,9 @@ var ltlQuoteRequestModel = new LTLQuoteRequestModel()
 {
     REFERENCE = "MY DEMO REFERENCE",
     START_ZONE = "45846",
+    PICK_UP_APPT_REQ = false,
     END_ZONE = "21703",
+    DELIVERY_APPT_REQ = false,
     DETAILS = new List<LTLQuoteRequestDetailModel>()
     {
         new LTLQuoteRequestDetailModel()
