@@ -9,17 +9,16 @@ Console.Title = "Cheeseman Third-Party Logistics API Demo";
 
 var client = new RestClient("https://tpl.cheeseman.com");
 
+
+#region Authentication
+#region v1/Authenticate
+Console.WriteLine("v1/Authenticate");
+
 Console.Write("Username: ");
 string username = Console.ReadLine();
 
 Console.Write("Password: ");
 string password = Console.ReadLine();
-
-Console.Clear();
-
-#region Authentication
-#region v1/Authenticate
-Console.WriteLine("v1/Authenticate");
 
 var authRequest = new RestRequest("/v1/Authenticate", Method.Post)
         .AddParameter("username", username, true)
