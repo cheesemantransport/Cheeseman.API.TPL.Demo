@@ -170,6 +170,30 @@ Console.WriteLine("Press any key to continue...");
 Console.ReadLine();
 Console.Clear();
 #endregion v1/Track/{trackingNumber}
+
+#region v1/Track/{billNumber}/Document/{docId}
+Console.WriteLine("v1/Track/{billNumber}/Document/{docId}");
+
+string billNumber = "cheesemanBillNumber";
+int docId = 0;
+
+var trackDocumentRequest = new RestRequest($"/v1/Track/{billNumber}/Document/{docId}", Method.Get);
+var trackDocumentResponse = await client.ExecuteGetAsync(trackDocumentRequest);
+var trackDocument = JsonSerializer.Deserialize<ApiResultModel<TrackDocumentModel>>(trackResponse.Content);
+
+// Check for Errors
+if (trackDocument.Errors?.Length > 0)
+    foreach (var e in trackDocument.Errors)
+        Console.WriteLine(e);
+
+if (!string.IsNullOrWhiteSpace(trackDocument.Result?.BYTES))
+    File.WriteAllBytes(trackDocument.Result.FILE_NAME, Convert.FromBase64String(trackDocument.Result.BYTES));
+
+Console.WriteLine("v1/Track/{billNumber}/Document/{docId}");
+Console.WriteLine("Press any key to continue...");
+Console.ReadLine();
+Console.Clear();
+#endregion v1/Track/{billNumber}/Document/{documentId}
 #endregion Tracking
 
 #region Transit
